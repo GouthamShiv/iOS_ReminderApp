@@ -51,4 +51,15 @@ class ReminderManager: ObservableObject {
         }
         save(reminders: reminders)
     }
+    
+    func delete(reminder: Reminder) {
+        let reminders = self.reminders.filter({$0.id != reminder.id})
+        save(reminders: reminders)
+    }
+    
+    func order(from source: IndexSet, to destination: Int) {
+        var reminders = self.reminders
+        reminders.move(fromOffsets: source, toOffset: destination)
+        save(reminders: reminders)
+    }
 }

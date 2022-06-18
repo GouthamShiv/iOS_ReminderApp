@@ -22,6 +22,9 @@ struct ContentView: View {
                             ReminderCell(vm: ReminderCellViewModel(reminder: reminder))
                         }
                     }
+                    .onDelete(perform: removeRow)
+                    .onMove(perform: reorderRow)
+                    
                     if addReminder {
                         ReminderCell(vm: ReminderCellViewModel(reminder: Reminder.template()))
                     }
@@ -56,6 +59,17 @@ struct ContentView: View {
                 EditButton()
             })
         }
+    }
+    
+    private func removeRow(at offsets: IndexSet) {
+        for offset in offsets {
+            let reminder = reminderManager.reminders[offset]
+            reminderManager.delete(reminder: reminder)
+        }
+    }
+    
+    private func reorderRow(from source: IndexSet, to destination: Int) {
+        reminderManager.order(from: source, to: destination)
     }
 }
 
