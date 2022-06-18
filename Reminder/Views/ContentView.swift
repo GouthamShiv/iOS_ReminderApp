@@ -18,7 +18,9 @@ struct ContentView: View {
                 List {
                     Toggle("Hide Completed", isOn: $hideCompleted)
                     ForEach(reminderManager.reminders, id: \.id) { reminder in
-                        ReminderCell(vm: ReminderCellViewModel(reminder: reminder))
+                        if !hideCompleted || !reminder.completed {
+                            ReminderCell(vm: ReminderCellViewModel(reminder: reminder))
+                        }
                     }
                     if addReminder {
                         ReminderCell(vm: ReminderCellViewModel(reminder: Reminder.template()))

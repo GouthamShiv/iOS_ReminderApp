@@ -17,10 +17,14 @@ struct ReminderCell: View {
     
     var body: some View {
         HStack {
-            Image(systemName: "circle")
+            Image(systemName: reminderCellVM.reminder.completed ? "checkmark.circle.fill" : "circle")
                 .resizable()
                 .frame(width: Constants.Icons.width, height: Constants.Icons.height)
-                .foregroundColor(Color(UIColor.lightGray))
+                .foregroundColor(reminderCellVM.reminder.completed ? .red : Color(UIColor.lightGray))
+                .onTapGesture {
+                    reminderCellVM.reminder.completed.toggle()
+                    reminderCellVM.setReminder()
+                }
             
             TextField("Enter new reminder", text: $reminderCellVM.reminder.name)
                 .onSubmit {
