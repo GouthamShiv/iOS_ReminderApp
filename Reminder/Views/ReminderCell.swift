@@ -7,29 +7,7 @@
 
 import SwiftUI
 
-struct ReminderCellView: View {
-    
-    @ObservedObject private var reminderCellVM: ReminderCellViewModel
-    
-    init(vm: ReminderCellViewModel) {
-        self.reminderCellVM = vm
-    }
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "circle")
-                .resizable()
-                .frame(width: Constants.Icons.width, height: Constants.Icons.height)
-                .foregroundColor(Color(UIColor.lightGray))
-            
-            Text(reminderCellVM.reminder.name)
-            Spacer()
-            Text(reminderCellVM.reminder.date.formatted(date: .abbreviated, time: .omitted))
-        }
-    }
-}
-
-struct ReminderCellEdit: View {
+struct ReminderCell: View {
     
     @ObservedObject private var reminderCellVM: ReminderCellViewModel
     
@@ -46,8 +24,8 @@ struct ReminderCellEdit: View {
             
             TextField("Enter new reminder", text: $reminderCellVM.reminder.name)
                 .onSubmit {
-                reminderCellVM.setReminder()
-            }
+                    reminderCellVM.setReminder()
+                }
             DatePicker("", selection: $reminderCellVM.reminder.date, displayedComponents: DatePickerComponents.date)
         }
     }
@@ -57,9 +35,7 @@ struct ReminderCell_Previews: PreviewProvider {
     static var previews: some View {
         let reminder = mockData[0]
         VStack {
-            ReminderCellView(vm: ReminderCellViewModel(reminder: reminder))
-            
-            ReminderCellEdit(vm: ReminderCellViewModel(reminder: reminder))
+            ReminderCell(vm: ReminderCellViewModel(reminder: reminder))
         }
     }
 }

@@ -18,25 +18,36 @@ struct ContentView: View {
                 List {
                     Toggle("Hide Completed", isOn: $hideCompleted)
                     ForEach(reminderManager.reminders, id: \.id) { reminder in
-                        ReminderCellView(vm: ReminderCellViewModel(reminder: reminder))
+                        ReminderCell(vm: ReminderCellViewModel(reminder: reminder))
+                    }
+                    if addReminder {
+                        ReminderCell(vm: ReminderCellViewModel(reminder: Reminder.template()))
                     }
                 }
                 .padding(.horizontal, -20)
                 
-                if addReminder {
-                    ReminderCellEdit(vm: ReminderCellViewModel(reminder: Reminder.template()))
-                }
-                
-                Button(action: {addReminder.toggle()},
-                       label: {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .frame(width: Constants.Icons.width, height: Constants.Icons.height, alignment: .center)
-                        Text("New Reminder")
+                HStack {
+                    Button(action: {addReminder.toggle()},
+                           label: {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                                .resizable()
+                                .frame(width: Constants.Icons.width, height: Constants.Icons.height, alignment: .center)
+                            Text("New Reminder")
+                        }
+                        .padding()
+                    })
+                    
+                    if addReminder {
+                        Spacer()
+                        Button(action: {
+                            addReminder.toggle()
+                        }, label: {
+                            Text("Done")
+                        })
+                        .padding()
                     }
-                    .padding()
-                })
+                }
             }
             .navigationBarTitle("Reminders")
             .toolbar(content: {
@@ -45,6 +56,7 @@ struct ContentView: View {
         }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

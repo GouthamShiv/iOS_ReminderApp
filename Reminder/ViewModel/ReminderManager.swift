@@ -23,11 +23,15 @@ class ReminderManager: ObservableObject {
         }
     }
     
-    // Change to avoid reloading of UI
     func set(reminder: Reminder) {
         var reminders = self.reminders
-        reminders.append(reminder)
-        save(reminders: reminders)
+        if !reminders.filter({$0.id == reminder.id}).isEmpty {
+            update(reminder: reminder)
+        } else {
+            reminders.append(reminder)
+            save(reminders: reminders)
+        }
+        
     }
     
     func save(reminders: [Reminder]) {
@@ -38,5 +42,13 @@ class ReminderManager: ObservableObject {
     
     func sort(reminders: [Reminder]) -> [Reminder] {
         return reminders.sorted(by: { !$0.completed && $1.completed })
+    }
+    
+    func update (reminder: Reminder) {
+        var reminders = self.reminders
+        if let index = reminders.firstIndex(where: {$0.id == reminder.id}) {
+            reminders[index] = reminder
+        }
+        save(reminders: reminders)
     }
 }
