@@ -8,19 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
-    //    @State private var reminders = [Reminder]()
+    @ObservedObject var reminderManager = ReminderManager.shared
+    @State private var hideCompleted = false
+    @State private var addReminder = false
     
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 10) {
-                List(mockData, id: \.id) { reminder in
-                    Text(reminder.name)
+                List {
+                    Toggle("Hide Completed", isOn: $hideCompleted)
+                    ForEach(reminderManager.reminders, id: \.id) { reminder in
+                        ReminderCellView(vm: ReminderCellViewModel(reminder: reminder))
+//                        Text(reminder.name)
+                    }
                 }
                 .padding(.horizontal, -20)
-                Button(action: {
-                    
-                },
-                label: {
+                
+                if addReminder {
+                    ReminderCellEdit(vm: ReminderCellViewModel(reminder: Reminder.template()))
+                }
+                
+                Button(action: {addReminder.toggle()},
+                       label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")
                             .resizable()

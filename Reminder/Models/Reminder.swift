@@ -12,6 +12,10 @@ struct Reminder: Identifiable {
     var name: String
     var completed: Bool
     var date: Date
+    
+    static func template() -> Reminder {
+        return Reminder(name: "", completed: false, date: Date())
+    }
 }
 
 #if DEBUG
