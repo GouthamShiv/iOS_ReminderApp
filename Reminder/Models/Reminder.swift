@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Reminder: Identifiable {
+struct Reminder: Identifiable, Codable {
     var id = UUID().uuidString
     var name: String
     var completed: Bool

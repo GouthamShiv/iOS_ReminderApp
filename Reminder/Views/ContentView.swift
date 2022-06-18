@@ -19,7 +19,6 @@ struct ContentView: View {
                     Toggle("Hide Completed", isOn: $hideCompleted)
                     ForEach(reminderManager.reminders, id: \.id) { reminder in
                         ReminderCellView(vm: ReminderCellViewModel(reminder: reminder))
-//                        Text(reminder.name)
                     }
                 }
                 .padding(.horizontal, -20)
@@ -33,7 +32,7 @@ struct ContentView: View {
                     HStack {
                         Image(systemName: "plus.circle.fill")
                             .resizable()
-                            .frame(width: 25, height: 25, alignment: .center)
+                            .frame(width: Constants.Icons.width, height: Constants.Icons.height, alignment: .center)
                         Text("New Reminder")
                     }
                     .padding()
