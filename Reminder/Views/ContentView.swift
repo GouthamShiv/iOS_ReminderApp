@@ -34,27 +34,31 @@ struct ContentView: View {
                 HStack {
                     Button(action: {addReminder.toggle()},
                            label: {
-                        HStack {
-                            Image(systemName: "plus.circle.fill")
-                                .resizable()
-                                .frame(width: Constants.Icons.width, height: Constants.Icons.height, alignment: .center)
-                            Text("New Reminder")
+                        if addReminder {
+                            Spacer()
+                            Button(action: {
+                                addReminder.toggle()
+                            }, label: {
+                                Text("Done")
+                            })
+                            .padding()
+                        } else {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                    .resizable()
+                                    .frame(width: Constants.Icons.width, height: Constants.Icons.height, alignment: .center)
+                                Text("New Reminder")
+                            }
+                            .padding()
                         }
-                        .padding()
                     })
-                    
-                    if addReminder {
-                        Spacer()
-                        Button(action: {
-                            addReminder.toggle()
-                        }, label: {
-                            Text("Done")
-                        })
-                        .padding()
-                    }
                 }
             }
-            .navigationBarTitle("Reminders")
+            .navigationBarTitle(
+                reminderManager.reminders.filter({!$0.completed}).count > 1 ?
+                "Reminder - \(reminderManager.reminders.filter({!$0.completed}).count) Items" :
+                    "Reminder - \(reminderManager.reminders.filter({!$0.completed}).count) Item"
+            )
             .toolbar(content: {
                 EditButton()
             })
