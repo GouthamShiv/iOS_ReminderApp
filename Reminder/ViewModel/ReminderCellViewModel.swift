@@ -17,4 +17,8 @@ class ReminderCellViewModel: ObservableObject {
     func setReminder() {
         ReminderManager.shared.set(reminder: reminder)
     }
+    
+    func deleteCell() {
+        ReminderManager.shared.delete(reminder: reminder)
+    }
 }

@@ -28,7 +28,11 @@ struct ReminderCell: View {
             
             TextField("Enter new reminder", text: $reminderCellVM.reminder.name)
                 .onSubmit {
-                    reminderCellVM.setReminder()
+                    if reminderCellVM.reminder.name.isEmpty {
+                        reminderCellVM.deleteCell()
+                    } else {
+                        reminderCellVM.setReminder()
+                    }
                 }
             DatePicker("", selection: $reminderCellVM.reminder.date, displayedComponents: DatePickerComponents.date)
         }
